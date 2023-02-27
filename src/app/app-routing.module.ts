@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { StocksComponent } from './stocks/stocks.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/stocks', pathMatch: 'full' },
-  { path: 'stocks', component: StocksComponent },
+  // { path: 'stocks', component: StocksComponent },
+  { path: 'stocks', loadChildren: () => import('./stocks/stocks.module').then(m => m.StocksModule)},
   { path: '**', redirectTo: '/home' },
 ];
 
