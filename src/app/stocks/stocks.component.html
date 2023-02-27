@@ -23,7 +23,8 @@
     {{stock.description}}
   </mat-card-content>
   <mat-divider inset></mat-divider>
-  <mat-card-footer>
+  <!-- Null check to fix undefined price error -->
+  <mat-card-footer *ngIf="stock.price"> 
     Price: {{stock.price.c}} | Currency: {{stock.currency}}
   </mat-card-footer>
 </mat-card>

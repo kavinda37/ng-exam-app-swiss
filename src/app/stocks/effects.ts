@@ -11,7 +11,8 @@ import { Price, Stock } from "./stock";
 @Injectable()
 export class StocksEffects {
 
-    private token = "sandbox_c9k210aad3i978qirhqg";
+    // Had to generate a new api token from finnhub to fetch data
+    private token = "cfuc7bpr01qiqjqkh43gcfuc7bpr01qiqjqkh440"; //"sandbox_c9k210aad3i978qirhqg";
 
     constructor(
         public actions$: Actions,
