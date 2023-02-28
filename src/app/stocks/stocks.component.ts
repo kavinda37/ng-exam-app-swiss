@@ -6,8 +6,8 @@ import { select, Store } from '@ngrx/store';
 import { map, startWith, switchMap } from 'rxjs';
 import { loadStocks, selectStock } from './actions';
 import { selecStockById, selectAllStockEntries, selectSelectedStock } from './selectors';
-import { AppState } from './state';
 import { Stock } from './stock';
+import { AppState } from "../app-state.interface";
 
 @Component({
   selector: 'stocks',
@@ -31,16 +31,14 @@ export class StocksComponent{
     );
 
     this.store.pipe(
-      select(selectAllStockEntries),
-      map(stocks => stocks.map(e => e.stock)))
+      select(selectAllStockEntries))
       .subscribe(arr => {
         this.objects = arr;
       });
 
       this.store.pipe(
         select(selectSelectedStock),
-        switchMap(s => this.store.select(selecStockById(s.symbol))),
-        map(s => s?.stock),
+        switchMap(s => this.store.select(selecStockById(s.symbol)))
       )
       .subscribe(selected => {
         this.stock = selected;

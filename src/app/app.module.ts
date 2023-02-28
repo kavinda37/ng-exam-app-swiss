@@ -14,8 +14,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { metaReducers, reducers } from './stocks/reducers';
-import { StocksEffects } from './stocks/effects';
 
 @NgModule({
   declarations: [
@@ -33,10 +31,8 @@ import { StocksEffects } from './stocks/effects';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    StoreModule.forRoot(reducers, {
-      metaReducers,
-    }),
-    EffectsModule.forRoot([StocksEffects]),
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot(),
     BrowserAnimationsModule,
     StoreDevtoolsModule.instrument(),
   ],

@@ -5,7 +5,7 @@ import { Store } from "@ngrx/store";
 import { exhaustMap, map, mergeMap, switchMap } from "rxjs";
 import { loadStocks, selectStock, updateStock, updateStocks } from "./actions";
 import { selectAllStockEntities } from "./selectors";
-import { AppState, StockEntry } from "./state";
+import { AppState } from "../app-state.interface";
 import { Price, Stock } from "./stock";
 
 @Injectable()
@@ -27,7 +27,7 @@ export class StocksEffects {
                 const url = "https://finnhub.io/api/v1/stock/symbol?exchange=US&token=" + this.token;
                 return this.http.get<Stock[]>(url);
             }),
-            map(dto => dto.map(item => ({ id: item.displaySymbol, stock: item }))),
+            map(dto => dto.map(item => ({ ...item, id: item.displaySymbol }))),
             switchMap((entries) => [updateStocks({ stocks: entries })]),
         ),
     );
@@ -40,15 +40,7 @@ export class StocksEffects {
             mergeMap((stock) => {
                 const url = "https://finnhub.io/api/v1/quote?symbol=" + stock?.id + "&token=" + this.token;
                 return this.http.get<Price>(url).pipe(
-                    map((price) => {
-                        return {
-                            ...stock,
-                            stock: {
-                                ...stock?.stock,
-                                price: price
-                            }
-                        } as StockEntry;
-                    })
+                    map((price) => { return {...stock, price} as Stock;})
                 );
             }),
             switchMap((stock) => [updateStock({ stock })]),

@@ -1,58 +1,35 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from "@ngrx/entity";
-import { Action, ActionReducerMap, createReducer, MetaReducer, on } from "@ngrx/store";
+import { ActionReducerMap, createReducer, MetaReducer, on } from "@ngrx/store";
 import { selectStock, updateStock, updateStocks } from "./actions";
-import { AppState, StockEntry } from "./state";
+import { StocksState } from "./state";
 import { Stock } from "./stock";
 
-export function sort(a: StockEntry, b: StockEntry): number {
-    return a.stock.displaySymbol.localeCompare(b.stock.displaySymbol);
-}
 
-export const stockEntryAdapter: EntityAdapter<StockEntry> = createEntityAdapter<StockEntry>({
-    sortComparer: sort,
+export const stockEntryAdapter: EntityAdapter<Stock> = createEntityAdapter<Stock>({
+    sortComparer: (a, b) => a.displaySymbol.localeCompare(b.displaySymbol)
 });
 
-export const estockEntryInitialState: EntityState<StockEntry> = stockEntryAdapter.getInitialState({
+export const estockEntryInitialState: EntityState<Stock> = stockEntryAdapter.getInitialState({
     ids: [],
-    entities: {},
+    entities: {}
 });
 
-const stockEntriesReducerInternal = createReducer(
+const stockEntriesReducer = createReducer<EntityState<Stock>>(
     estockEntryInitialState,
-    on(updateStocks, (state, { stocks }) =>
+    on(updateStocks, (state:EntityState<Stock>, { stocks }) =>
         stockEntryAdapter.setAll(stocks, state),
     ),
-    on(updateStock, (state, { stock }) => {
-        if (stock) {
-            return stockEntryAdapter.upsertOne(stock, state)
-        } else {
-            return state;
-        }
-    }),
+    on(updateStock, (state: EntityState<Stock>, { stock }) => stock ? stockEntryAdapter.upsertOne(stock, state) : state),
 );
 
-function stockEntriesReducer(state: EntityState<StockEntry> | undefined, action: Action): EntityState<StockEntry> {
-    return stockEntriesReducerInternal(state, action);
-}
-
-const selectStockEntriesReducerInternal = createReducer(
+const selectStockEntriesReducer = createReducer<Stock>(
     new Stock(),
-    on(selectStock, (state, { stock }) => {
-        if (stock) {
-            return stock
-        } else {
-            return state;
-        }
-    }),
+    on(selectStock, (state: Stock, { stock }) => stock ? stock : state),
 );
 
-function selectStockReducer(state: Stock | undefined, action: Action): Stock {
-    return selectStockEntriesReducerInternal(state, action);
-}
-
-export const reducers: ActionReducerMap<AppState> = {
-    stocks: stockEntriesReducer,
-    selectedStock: selectStockReducer,
+export const reducers: ActionReducerMap<StocksState> = {
+    entries: stockEntriesReducer,
+    selectedEntry: selectStockEntriesReducer,
 };
 
-export const metaReducers: MetaReducer<AppState>[] = [];
+export const metaReducers: MetaReducer<StocksState>[] = [];
