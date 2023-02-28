@@ -1,8 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -16,22 +13,16 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
-import { StocksRoutingModule } from './stocks-routing.module'
-import { StocksComponent } from './stocks.component';
+import { StockCardWidgetComponent } from './components/stock-card-widget/stock-card-widget.component';
 
-import { metaReducers, reducers } from './store/reducers';
-import { StocksEffects } from './store/effects';
-
-import { SharedModule } from '../_shared/shared.module'
 
 
 @NgModule({
   declarations: [
-    StocksComponent
+    StockCardWidgetComponent
   ],
   imports: [
     CommonModule,
-    StocksRoutingModule,
     MatCommonModule,
     MatToolbarModule,
     MatIconModule,
@@ -43,14 +34,7 @@ import { SharedModule } from '../_shared/shared.module'
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
-    ReactiveFormsModule,
-    // creating a slice
-    StoreModule.forFeature('stocks', reducers, {
-      metaReducers,
-    }),
-    // Effects for module only
-    EffectsModule.forFeature([StocksEffects]),
-    SharedModule
-  ]
+  ],
+  exports: [StockCardWidgetComponent]
 })
-export class StocksModule { }
+export class SharedModule { }

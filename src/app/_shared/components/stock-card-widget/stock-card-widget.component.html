@@ -1,0 +1,12 @@
+<mat-card *ngIf="stock && stock.price" class="stock-card">
+    <mat-card-subtitle>Symbol</mat-card-subtitle>
+    <mat-card-title>{{stock.displaySymbol}}</mat-card-title>
+    <mat-card-content>
+        {{stock.description}}
+    </mat-card-content>
+    <mat-divider inset></mat-divider>
+    <!-- Null check to fix undefined price error -->
+    <mat-card-actions class="stock-card-footer">
+        Price: {{stock.price.c}} | Currency: {{stock.currency}}
+    </mat-card-actions>
+</mat-card>
