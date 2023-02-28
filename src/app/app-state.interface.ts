@@ -1,5 +1,4 @@
-import { EntityState } from "@ngrx/entity";
-import { StocksState } from "./stocks/types/state";
+import { StocksState } from "./stocks/types/stocks-state.interface";
 
 export interface AppState {
     stocks: StocksState

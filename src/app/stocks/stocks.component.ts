@@ -17,8 +17,7 @@ import { AppState } from "../app-state.interface";
 export class StocksComponent{
   autocomplete = new FormControl();
   filteredOptions$: Observable<Stock[]>;
-  objects: Stock[] = []
-  stock: Stock | undefined;
+  objects: Stock[] = [];
 
   stock$: Observable<Stock | undefined>;
 

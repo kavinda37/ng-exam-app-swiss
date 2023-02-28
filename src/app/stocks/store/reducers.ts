@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from "@ngrx/entity";
 import { ActionReducerMap, createReducer, MetaReducer, on } from "@ngrx/store";
 import { selectStock, updateStock, updateStocks } from "./actions";
-import { StocksState } from "../types/state";
+import { StocksState } from "../types/stocks-state.interface";
 import { Stock } from "../types/stock";
 
 
@@ -27,6 +27,7 @@ const selectStockEntriesReducer = createReducer<Stock>(
     on(selectStock, (state: Stock, { stock }) => stock ? stock : state),
 );
 
+// Error handlers required
 export const reducers: ActionReducerMap<StocksState> = {
     entries: stockEntriesReducer,
     selectedEntry: selectStockEntriesReducer,
