@@ -19,8 +19,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { StocksRoutingModule } from './stocks-routing.module'
 import { StocksComponent } from './stocks.component';
 
-import { metaReducers, reducers } from './reducers';
-import { StocksEffects } from './effects';
+import { metaReducers, reducers } from './store/reducers';
+import { StocksEffects } from './store/effects';
 
 
 @NgModule({

@@ -1,8 +1,8 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from "@ngrx/entity";
 import { ActionReducerMap, createReducer, MetaReducer, on } from "@ngrx/store";
 import { selectStock, updateStock, updateStocks } from "./actions";
-import { StocksState } from "./state";
-import { Stock } from "./stock";
+import { StocksState } from "../types/state";
+import { Stock } from "../types/stock";
 
 
 export const stockEntryAdapter: EntityAdapter<Stock> = createEntityAdapter<Stock>({

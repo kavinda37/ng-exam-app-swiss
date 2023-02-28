@@ -4,9 +4,9 @@ import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { select, Store } from '@ngrx/store';
 import { map, startWith, switchMap } from 'rxjs';
-import { loadStocks, selectStock } from './actions';
-import { selecStockById, selectAllStockEntries, selectSelectedStock } from './selectors';
-import { Stock } from './stock';
+import { loadStocks, selectStock } from './store/actions';
+import { selecStockById, selectAllStockEntries, selectSelectedStock } from './store/selectors';
+import { Stock } from './types/stock';
 import { AppState } from "../app-state.interface";
 
 @Component({
