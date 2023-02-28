@@ -1,18 +1,20 @@
 import { createSelector, DefaultProjectorFn, MemoizedSelector } from "@ngrx/store";
 import { stockEntryAdapter } from "./reducers";
-import { AppState, StockEntry } from "./state";
+import { AppState } from "../../app-state.interface";
+import { StocksState } from "../types/stocks-state.interface";
+import { Stock } from "../types/stock";
 
 type StockEntrySelector =
     MemoizedSelector<
-    AppState,
-        StockEntry | undefined,
-        DefaultProjectorFn<StockEntry | undefined>
+        AppState,
+        Stock | undefined,
+        DefaultProjectorFn<Stock | undefined>
     >;
 
-export const selectStocksState = (state: AppState) => state.stocks;
-const { selectEntities, selectAll } = stockEntryAdapter.getSelectors();
+const { selectEntities, selectAll } = stockEntryAdapter.getSelectors();    
 
-export const selectSelectedStock = (state: AppState) => state.selectedStock;
+export const selectStocksState = (state: AppState) => state.stocks.entries;
+export const selectSelectedStock = (state: AppState) => state.stocks.selectedEntry;
 
 export const selectAllStockEntries = createSelector(selectStocksState, selectAll);
 export const selectAllStockEntities = createSelector(selectStocksState, selectEntities);

@@ -1,0 +1,14 @@
+<mat-card *ngIf="stock" class="stock-card">
+    <mat-card-subtitle>Symbol</mat-card-subtitle>
+    <mat-card-title>{{stock.displaySymbol}}</mat-card-title>
+    <mat-card-content>
+        {{stock.description}}
+    </mat-card-content>
+    <mat-divider inset></mat-divider>
+    <mat-card-actions *ngIf="stock.price" class="stock-card-footer">
+        Price: {{stock.price.c}} | Currency: {{stock.currency}}
+      </mat-card-actions>
+      <mat-card-footer *ngIf="!stock.price">
+        <mat-progress-bar  mode="indeterminate"></mat-progress-bar>
+      </mat-card-footer>
+</mat-card>

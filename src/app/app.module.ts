@@ -10,23 +10,14 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { StocksComponent } from './stocks/stocks.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { metaReducers, reducers } from './stocks/reducers';
-import { StocksEffects } from './stocks/effects';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    StocksComponent,
+    AppComponent
   ],
   imports: [
     MatCommonModule,
@@ -36,19 +27,12 @@ import { StocksEffects } from './stocks/effects';
     MatListModule,
     MatMenuModule,
     MatButtonModule,
-    MatAutocompleteModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCardModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule,
     HttpClientModule,
-    StoreModule.forRoot(reducers, {
-      metaReducers,
-    }),
-    EffectsModule.forRoot([StocksEffects]),
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot(),
     BrowserAnimationsModule,
     StoreDevtoolsModule.instrument(),
   ],

@@ -3,11 +3,11 @@ import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { select, Store } from '@ngrx/store';
-import { map, startWith, switchMap } from 'rxjs';
-import { loadStocks, selectStock } from './actions';
-import { selecStockById, selectAllStockEntries, selectSelectedStock } from './selectors';
-import { AppState } from './state';
-import { Stock } from './stock';
+import { map, Observable, startWith, switchMap } from 'rxjs';
+import { loadStocks, selectStock } from './store/actions';
+import { selecStockById, selectAllStockEntries, selectSelectedStock } from './store/selectors';
+import { Stock } from './types/stock';
+import { AppState } from "../app-state.interface";
 
 @Component({
   selector: 'stocks',
@@ -16,34 +16,28 @@ import { Stock } from './stock';
 })
 export class StocksComponent{
   autocomplete = new FormControl();
-  filteredOptions: Stock[] = [];
-  objects: Stock[] = []
-  stock: Stock | undefined;
+  filteredOptions$: Observable<Stock[]>;
+  objects: Stock[] = [];
+
+  stock$: Observable<Stock | undefined>;
 
   constructor(readonly client: HttpClient, readonly store: Store<AppState>) {
-    this.autocomplete.valueChanges.pipe(
+
+    // removed subscription and used stream.
+    this.filteredOptions$ = this.autocomplete.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value)),
-    ).subscribe(
-      v => {
-        this.filteredOptions = v;
-      }
-    );
+     )
+
+     this.stock$ = this.store.pipe(
+      select(selectSelectedStock),
+      switchMap(s => this.store.select(selecStockById(s.symbol)))
+    )
 
     this.store.pipe(
-      select(selectAllStockEntries),
-      map(stocks => stocks.map(e => e.stock)))
+      select(selectAllStockEntries))
       .subscribe(arr => {
         this.objects = arr;
-      });
-
-      this.store.pipe(
-        select(selectSelectedStock),
-        switchMap(s => this.store.select(selecStockById(s.symbol))),
-        map(s => s?.stock),
-      )
-      .subscribe(selected => {
-        this.stock = selected;
       });
 
     this.store.dispatch(loadStocks());
@@ -64,7 +58,6 @@ export class StocksComponent{
   }
 
   public selectSymbol(item: MatAutocompleteSelectedEvent) {
-    console.log(item.option.value);
     let found = this.objects.find(element => element.symbol == item.option.value);
 
     if (!found) {

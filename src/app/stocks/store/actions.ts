@@ -1,6 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { StockEntry } from './state';
-import { Stock } from './stock';
+import { Stock } from '../types/stock';
 
 export const loadStocks = createAction(
     '[Stocks] Load'
@@ -8,12 +7,12 @@ export const loadStocks = createAction(
 
 export const updateStocks = createAction(
     '[Stocks] Update',
-    props<{ stocks: StockEntry[] }>(),
+    props<{ stocks: Stock[] }>(),
 );
 
 export const updateStock = createAction(
     '[Stocks] Update one',
-    props<{ stock: StockEntry | undefined }>(),
+    props<{ stock: Stock | undefined }>(),
 );
 
 export const selectStock = createAction(
